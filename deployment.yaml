@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-opentelemetry-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-opentelemetry-app
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: python-opentelemetry-app
+    spec:
+      containers:
+        - name: app
+          image: <name>docker/python-opentelemetry-app2:v8
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: OTEL_EXPORTER_OTLP_METRICS_ENDPOINT
+              value: "http://groundcover-custom-metrics.groundcover.svc.cluster.local:8429/opentelemetry/api/v1/push"
+            - name: OTEL_EXPORTER_OTLP_METRICS_PROTOCOL
+              value: "http/protobuf"
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600    
