@@ -6,7 +6,7 @@ from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExp
 from opentelemetry.sdk.metrics.export import (
     PeriodicExportingMetricReader,
 )
-
+#
 # Set up the OTLP Metric Exporter
 otlp_exporter = OTLPMetricExporter(
     endpoint="http://groundcover-custom-metrics.groundcover.svc.cluster.local:8429/opentelemetry/api/v1/push",
