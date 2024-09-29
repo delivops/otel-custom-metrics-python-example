@@ -1,4 +1,4 @@
-name: Tag & Publish Argo CD Watcher Notifier
+name: Tag & Publish to ghcr
 on:
   push:
     branches:
